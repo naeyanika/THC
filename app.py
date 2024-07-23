@@ -141,12 +141,103 @@ if uploaded_files:
             st.write("Simpanan N/A:")
             st.write(df_simpanan_na)
 
-            # Download links
+            # PIVOT DF4
+            def sum_lists(x):
+                if isinstance(x, list):
+                    return sum(int(value.replace('Rp ', '').replace(',', '')) for value in x)
+                return x
+
+            df4_merged['TRANS. DATE'] = pd.to_datetime(df4_merged['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
+            df4_merged['DUMMY'] = df4_merged['ID ANGGOTA'] + '' + df4_merged['TRANS. DATE']
+
+            pivot_table4 = pd.pivot_table(df4_merged,
+                                          values=['DEBIT', 'CREDIT'],
+                                          index=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'],
+                                          columns='JENIS PINJAMAN',
+                                          aggfunc={'DEBIT': list, 'CREDIT': list},
+                                          fill_value=0)
+
+            pivot_table4 = pivot_table4.applymap(sum_lists)
+            pivot_table4.columns = [f'{col[0]}_{col[1]}' for col in pivot_table4.columns]
+            pivot_table4.reset_index(inplace=True)
+            pivot_table4['TRANS. DATE'] = pd.to_datetime(pivot_table4['TRANS. DATE'], format='%d%m%Y').dt.strftime('%d/%m/%Y')
+
+            new_columns4 = [
+                'DEBIT_PINJAMAN UMUM',
+                'DEBIT_PINJAMAN RENOVASI RUMAH',
+                'DEBIT_PINJAMAN SANITASI',
+                'DEBIT_PINJAMAN ARTA',
+                'DEBIT_PINJAMAN MIKROBISNIS',
+                'DEBIT_PINJAMAN DT. PENDIDIKAN',
+                'DEBIT_PINJAMAN PERTANIAN',
+                'CREDIT_PINJAMAN UMUM',
+                'CREDIT_PINJAMAN RENOVASI RUMAH',
+                'CREDIT_PINJAMAN SANITASI',
+                'CREDIT_PINJAMAN ARTA',
+                'CREDIT_PINJAMAN MIKROBISNIS',
+                'CREDIT_PINJAMAN DT. PENDIDIKAN',
+                'CREDIT_PINJAMAN PERTANIAN'
+            ]
+
+            for col in new_columns4:
+                if col not in pivot_table4.columns:
+                    pivot_table4[col] = 0
+
+            pivot_table4['DEBIT_TOTAL'] = pivot_table4.filter(like='DEBIT').sum(axis=1)
+            pivot_table4['CREDIT_TOTAL'] = pivot_table4.filter(like='CREDIT').sum(axis=1)
+
+            st.write("Pivot Table THC Pinjaman:")
+            st.write(pivot_table4)
+
+            # PIVOT DF5
+            df5_merged['TRANS. DATE'] = pd.to_datetime(df5_merged['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
+            df5_merged['DUMMY'] = df5_merged['ID ANGGOTA'] + '' + df5_merged['TRANS. DATE']
+
+            pivot_table5 = pd.pivot_table(df5_merged,
+                                          values=['DEBIT', 'CREDIT'],
+                                          index=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'],
+                                          columns='JENIS SIMPANAN',
+                                          aggfunc={'DEBIT': list, 'CREDIT': list},
+                                          fill_value=0)
+
+            pivot_table5 = pivot_table5.applymap(sum_lists)
+            pivot_table5.columns = [f'{col[0]}_{col[1]}' for col in pivot_table5.columns]
+            pivot_table5.reset_index(inplace=True)
+            pivot_table5['TRANS. DATE'] = pd.to_datetime(pivot_table5['TRANS. DATE'], format='%d%m%Y').dt.strftime('%d/%m/%Y')
+
+            new_columns5 = [
+                'DEBIT_Simpanan Pensiun',
+                'DEBIT_Simpanan Pokok',
+                'DEBIT_Simpanan Sukarela',
+                'DEBIT_Simpanan Wajib',
+                'DEBIT_Simpanan Hari Raya',
+                'DEBIT_Simpanan Qurban',
+                'DEBIT_Simpanan Sipadan',
+                'DEBIT_Simpanan Khusus',
+                'CREDIT_Simpanan Pensiun',
+                'CREDIT_Simpanan Pokok',
+                'CREDIT_Simpanan Sukarela',
+                'CREDIT_Simpanan Wajib',
+                'CREDIT_Simpanan Hari Raya',
+                'CREDIT_Simpanan Qurban',
+                'CREDIT_Simpanan Sipadan',
+                'CREDIT_Simpanan Khusus'
+            ]
+
+            for col in new_columns5:
+                if col not in pivot_table5.columns:
+                    pivot_table5[col] = 0
+
+            pivot_table5['DEBIT_TOTAL'] = pivot_table5.filter(like='DEBIT').sum(axis=1)
+            pivot_table5['CREDIT_TOTAL'] = pivot_table5.filter(like='CREDIT').sum(axis=1)
+
+            st.write("Pivot Table THC Simpanan:")
+            st.write(pivot_table5)
+
+            # Download links for pivot tables
             for name, df in {
-                'THC_Pinjaman.xlsx': df4_merged,
-                'THC_Simpanan.xlsx': df5_merged,
-                'Pinjaman_NA.xlsx': df_pinjaman_na,
-                'Simpanan_NA.xlsx': df_simpanan_na
+                'pivot_pinjaman.xlsx': pivot_table4,
+                'pivot_simpanan.xlsx': pivot_table5
             }.items():
                 buffer = io.BytesIO()
                 with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
