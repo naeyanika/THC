@@ -208,7 +208,7 @@ if uploaded_files:
             rename_dict_1 = {
             'DEBIT_PINJAMAN MIKROBISNIS': 'Dr PMB',
             'CREDIT_PINJAMAN MIKROBISNIS': 'Cr PMB',
-   
+            }
                 if 'CREDIT_PINJAMAN MIKROBISNIS' in pivot_columns or 'CREDIT_PINJAMAN MIKRO BISNIS' in pivot_columns:
                 rename_dict = rename_dict_1
                 else:
