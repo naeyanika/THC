@@ -212,7 +212,7 @@ rename_dict_1 = {
 }
 
 # Memeriksa kolom di pivot_table4
-pivot_columns = pivot_table4.columns
+# pivot_columns = pivot_table4.columns
 
 # Menentukan rename_dict yang sesuai
 if 'CREDIT_PINJAMAN MIKROBISNIS' in pivot_columns or 'CREDIT_PINJAMAN MIKRO BISNIS' in pivot_columns:
