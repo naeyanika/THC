@@ -211,44 +211,44 @@ pivot_table4 = pivot_table4.rename(columns=rename_dict)
 st.write("Pivot Table THC Pinjaman:")
 st.write(pivot_table4)
 
-            # PIVOT DF5
-            df5_merged['TRANS. DATE'] = pd.to_datetime(df5_merged['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
-            df5_merged['DUMMY'] = df5_merged['ID ANGGOTA'] + '' + df5_merged['TRANS. DATE']
+# PIVOT DF5
+df5_merged['TRANS. DATE'] = pd.to_datetime(df5_merged['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
+df5_merged['DUMMY'] = df5_merged['ID ANGGOTA'] + '' + df5_merged['TRANS. DATE']
 
-            pivot_table5 = pd.pivot_table(df5_merged,
-                                          values=['DEBIT', 'CREDIT'],
-                                          index=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'],
-                                          columns='JENIS SIMPANAN',
-                                          aggfunc={'DEBIT': list, 'CREDIT': list},
-                                          fill_value=0)
+pivot_table5 = pd.pivot_table(df5_merged,
+                              values=['DEBIT', 'CREDIT'],
+                              index=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'],
+                              columns='JENIS SIMPANAN',
+                              aggfunc={'DEBIT': list, 'CREDIT': list},
+                              fill_value=0)
 
-            pivot_table5 = pivot_table5.applymap(sum_lists)
-            pivot_table5.columns = [f'{col[0]}_{col[1]}' for col in pivot_table5.columns]
-            pivot_table5.reset_index(inplace=True)
-            pivot_table5['TRANS. DATE'] = pd.to_datetime(pivot_table5['TRANS. DATE'], format='%d%m%Y').dt.strftime('%d/%m/%Y')
+pivot_table5 = pivot_table5.applymap(sum_lists)
+pivot_table5.columns = [f'{col[0]}_{col[1]}' for col in pivot_table5.columns]
+pivot_table5.reset_index(inplace=True)
+pivot_table5['TRANS. DATE'] = pd.to_datetime(pivot_table5['TRANS. DATE'], format='%d%m%Y').dt.strftime('%d/%m/%Y')
 
-            new_columns5 = [
-                'DEBIT_Simpanan Pensiun',
-                'DEBIT_Simpanan Pokok',
-                'DEBIT_Simpanan Sukarela',
-                'DEBIT_Simpanan Wajib',
-                'DEBIT_Simpanan Hari Raya',
-                'DEBIT_Simpanan Qurban',
-                'DEBIT_Simpanan Sipadan',
-                'DEBIT_Simpanan Khusus',
-                'CREDIT_Simpanan Pensiun',
-                'CREDIT_Simpanan Pokok',
-                'CREDIT_Simpanan Sukarela',
-                'CREDIT_Simpanan Wajib',
-                'CREDIT_Simpanan Hari Raya',
-                'CREDIT_Simpanan Qurban',
-                'CREDIT_Simpanan Sipadan',
-                'CREDIT_Simpanan Khusus'
-            ]
+new_columns5 = [
+    'DEBIT_Simpanan Pensiun',
+    'DEBIT_Simpanan Pokok',
+    'DEBIT_Simpanan Sukarela',
+    'DEBIT_Simpanan Wajib',
+    'DEBIT_Simpanan Hari Raya',
+    'DEBIT_Simpanan Qurban',
+    'DEBIT_Simpanan Sipadan',
+    'DEBIT_Simpanan Khusus',
+    'CREDIT_Simpanan Pensiun',
+    'CREDIT_Simpanan Pokok',
+    'CREDIT_Simpanan Sukarela',
+    'CREDIT_Simpanan Wajib',
+    'CREDIT_Simpanan Hari Raya',
+    'CREDIT_Simpanan Qurban',
+    'CREDIT_Simpanan Sipadan',
+    'CREDIT_Simpanan Khusus'
+]
 
-            for col in new_columns5:
-                if col not in pivot_table5.columns:
-                    pivot_table5[col] = 0
+for col in new_columns5:
+    if col not in pivot_table5.columns:
+        pivot_table5[col] = 0
 
 pivot_table5['DEBIT_TOTAL'] = pivot_table5.filter(like='DEBIT').sum(axis=1)
 pivot_table5['CREDIT_TOTAL'] = pivot_table5.filter(like='CREDIT').sum(axis=1)
