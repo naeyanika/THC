@@ -270,7 +270,7 @@ if uploaded_files:
             'CREDIT_Simpanan Qurban': 'Cr Qurban',
             'CREDIT_Simpanan Sipadan': 'Cr SIPADAN',
             'CREDIT_Simpanan Khusus': 'Cr Khusus',
-            'Credit_Total_Simpanan': 'Cr Total
+            'Credit_Total_Simpanan': 'Cr Total'
             }
             pivot_table5.columns = [rename_dict.get(col, col) for col in pivot_table.columns]
             st.write("Pivot Table THC Simpanan:")
