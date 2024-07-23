@@ -216,13 +216,11 @@ pivot_columns = pivot_table4.columns
 
 # Menentukan rename_dict yang sesuai
 if 'CREDIT_PINJAMAN MIKROBISNIS' in pivot_columns or 'CREDIT_PINJAMAN MIKRO BISNIS' in pivot_columns:
-    rename_dict = rename_dict_1
-else:
-    rename_dict = {}
+    rename_dict.update(rename_dict_1)  # Menambahkan atau memperbarui rename_dict dengan rename_dict_1
+
 if 'DEBIT_PINJAMAN MIKROBISNIS' in pivot_columns or 'DEBIT_PINJAMAN MIKRO BISNIS' in pivot_columns:
-    rename_dict = rename_dict_1
-else:
-    rename_dict = {}
+    rename_dict.update(rename_dict_1)  # Menambahkan atau memperbarui rename_dict dengan rename_dict_1
+
 # Menerapkan rename_dict
 pivot_table4.rename(columns=rename_dict, inplace=True)
 
