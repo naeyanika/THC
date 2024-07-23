@@ -234,7 +234,8 @@ if uploaded_files:
             st.write("Pivot Table THC Simpanan:")
             st.write(pivot_table5)
 
-            final_result = df6_merge.copy()
+            # Correct the merging and processing
+            final_result = df4_merged.copy()
             final_result['DUMMY'] = final_result['ID ANGGOTA'] + '' + final_result['TRANS. DATE']
             final_result = pd.merge(final_result, pivot_table4, on='DUMMY', how='left')
             final_result = pd.merge(final_result, pivot_table5, on='DUMMY', how='left')
@@ -243,43 +244,45 @@ if uploaded_files:
             final_result['DEBIT_TOTAL'] = final_result[['DEBIT_TOTAL_x', 'DEBIT_TOTAL_y']].sum(axis=1)
             final_result['CREDIT_TOTAL'] = final_result[['CREDIT_TOTAL_x', 'CREDIT_TOTAL_y']].sum(axis=1)
             final_result = final_result.fillna(0)
-            final_result = rename_dict = {
-    'KELOMPOK': 'KEL',
-    'DEBIT_Simpanan Hari Raya': 'Db Sihara',
-    'DEBIT_Simpanan Pensiun': 'Db Pensiun',
-    'DEBIT_Simpanan Pokok': 'Db Pokok',
-    'DEBIT_Simpanan Sukarela': 'Db Sukarela',
-    'DEBIT_Simpanan Wajib': 'Db Wajib',
-    'DEBIT_Simpanan Qurban': 'Db Qurban',
-    'DEBIT_Simpanan Sipadan': 'Db SIPADAN',
-    'DEBIT_Simpanan Khusus': 'Db Khusus',
-    'Debit_Total_Simpanan': 'Db Total',
-    'CREDIT_Simpanan Hari Raya': 'Cr Sihara',
-    'CREDIT_Simpanan Pensiun': 'Cr Pensiun',
-    'CREDIT_Simpanan Pokok': 'Cr Pokok',
-    'CREDIT_Simpanan Sukarela': 'Cr Sukarela',
-    'CREDIT_Simpanan Wajib': 'Cr Wajib',
-    'CREDIT_Simpanan Qurban': 'Cr Qurban',
-    'CREDIT_Simpanan Sipadan': 'Cr SIPADAN',
-    'CREDIT_Simpanan Khusus': 'Cr Khusus',
-    'Credit_Total_Simpanan': 'Cr Total',
-    'DEBIT_PINJAMAN ARTA': 'Db PRT',
-    'DEBIT_PINJAMAN DT. PENDIDIKAN': 'Db DTP',
-    'DEBIT_PINJAMAN MIKROBISNIS': 'Db PMB',
-    'DEBIT_PINJAMAN SANITASI': 'Db PSA',
-    'DEBIT_PINJAMAN UMUM': 'Db PU',
-    'DEBIT_PINJAMAN RENOVASI RUMAH': 'Db PRR',
-    'DEBIT_PINJAMAN PERTANIAN': 'Db PTN',
-    'Debit_Total_Pinjaman': 'Db Total2',
-    'CREDIT_PINJAMAN ARTA': 'Cr PRT',
-    'CREDIT_PINJAMAN DT. PENDIDIKAN': 'Cr DTP',
-    'CREDIT_PINJAMAN MIKROBISNIS': 'Cr PMB',
-    'CREDIT_PINJAMAN SANITASI': 'Cr PSA',
-    'CREDIT_PINJAMAN UMUM': 'Cr PU',
-    'CREDIT_PINJAMAN RENOVASI RUMAH': 'Cr PRR',
-    'CREDIT_PINJAMAN PERTANIAN': 'Cr PTN',
-    'Credit_Total_Pinjaman': 'Cr Total2'
-}
+
+            # Rename columns
+            rename_dict = {
+                'KELOMPOK': 'KEL',
+                'DEBIT_Simpanan Hari Raya': 'Db Sihara',
+                'DEBIT_Simpanan Pensiun': 'Db Pensiun',
+                'DEBIT_Simpanan Pokok': 'Db Pokok',
+                'DEBIT_Simpanan Sukarela': 'Db Sukarela',
+                'DEBIT_Simpanan Wajib': 'Db Wajib',
+                'DEBIT_Simpanan Qurban': 'Db Qurban',
+                'DEBIT_Simpanan Sipadan': 'Db SIPADAN',
+                'DEBIT_Simpanan Khusus': 'Db Khusus',
+                'Debit_Total_Simpanan': 'Db Total',
+                'CREDIT_Simpanan Hari Raya': 'Cr Sihara',
+                'CREDIT_Simpanan Pensiun': 'Cr Pensiun',
+                'CREDIT_Simpanan Pokok': 'Cr Pokok',
+                'CREDIT_Simpanan Sukarela': 'Cr Sukarela',
+                'CREDIT_Simpanan Wajib': 'Cr Wajib',
+                'CREDIT_Simpanan Qurban': 'Cr Qurban',
+                'CREDIT_Simpanan Sipadan': 'Cr SIPADAN',
+                'CREDIT_Simpanan Khusus': 'Cr Khusus',
+                'Credit_Total_Simpanan': 'Cr Total',
+                'DEBIT_PINJAMAN ARTA': 'Db PRT',
+                'DEBIT_PINJAMAN DT. PENDIDIKAN': 'Db DTP',
+                'DEBIT_PINJAMAN MIKROBISNIS': 'Db PMB',
+                'DEBIT_PINJAMAN SANITASI': 'Db PSA',
+                'DEBIT_PINJAMAN UMUM': 'Db PU',
+                'DEBIT_PINJAMAN RENOVASI RUMAH': 'Db PRR',
+                'DEBIT_PINJAMAN PERTANIAN': 'Db PTN',
+                'Debit_Total_Pinjaman': 'Db Total2',
+                'CREDIT_PINJAMAN ARTA': 'Cr PRT',
+                'CREDIT_PINJAMAN DT. PENDIDIKAN': 'Cr DTP',
+                'CREDIT_PINJAMAN MIKROBISNIS': 'Cr PMB',
+                'CREDIT_PINJAMAN SANITASI': 'Cr PSA',
+                'CREDIT_PINJAMAN UMUM': 'Cr PU',
+                'CREDIT_PINJAMAN RENOVASI RUMAH': 'Cr PRR',
+                'CREDIT_PINJAMAN PERTANIAN': 'Cr PTN',
+                'Credit_Total_Pinjaman': 'Cr Total2'
+            }
             final_result = final_result.rename(columns=rename_dict)
             final_result.to_excel('Final THC.xlsx', index=False)
             
@@ -292,3 +295,5 @@ if uploaded_files:
                 
             st.download_button(label='Unduh Final THC.xlsx', data=open('Final THC.xlsx', 'rb').read(), file_name='Final THC.xlsx', mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             st.download_button(label='Unduh Additional Files.xlsx', data=open('Additional_Files.xlsx', 'rb').read(), file_name='Additional_Files.xlsx', mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        else:
+            st.write("File DbSimpanan.csv atau DbPinjaman.csv tidak ditemukan.")
