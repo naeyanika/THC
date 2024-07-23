@@ -186,6 +186,26 @@ if uploaded_files:
             pivot_table4['DEBIT_TOTAL'] = pivot_table4.filter(like='DEBIT').sum(axis=1)
             pivot_table4['CREDIT_TOTAL'] = pivot_table4.filter(like='CREDIT').sum(axis=1)
 
+            rename_dict = {
+                'KELOMPOK' = 'KEL',
+                'DEBIT_PINJAMAN ARTA': 'Db PRT',
+                'DEBIT_PINJAMAN DT. PENDIDIKAN': 'Db DTP',
+                'DEBIT_PINJAMAN MIKROBISNIS': 'Db PMB',
+                'DEBIT_PINJAMAN SANITASI': 'Db PSA',
+                'DEBIT_PINJAMAN UMUM': 'Db PU',
+                'DEBIT_PINJAMAN RENOVASI RUMAH': 'Db PRR',
+                'DEBIT_PINJAMAN PERTANIAN': 'Db PTN',
+                'Debit_Total_Pinjaman': 'Db Total2',
+                'CREDIT_PINJAMAN ARTA': 'Cr PRT',
+                'CREDIT_PINJAMAN DT. PENDIDIKAN': 'Cr DTP',
+                'CREDIT_PINJAMAN MIKROBISNIS': 'Cr PMB',
+                'CREDIT_PINJAMAN SANITASI': 'Cr PSA',
+                'CREDIT_PINJAMAN UMUM': 'Cr PU',
+                'CREDIT_PINJAMAN RENOVASI RUMAH': 'Cr PRR',
+                'CREDIT_PINJAMAN PERTANIAN': 'Cr PTN',
+                'Credit_Total_Pinjaman': 'Cr Total2'
+            }
+            pivot_table4.columns = [rename_dict.get(col, col) for col in pivot_table.columns]
             st.write("Pivot Table THC Pinjaman:")
             st.write(pivot_table4)
 
@@ -231,6 +251,28 @@ if uploaded_files:
             pivot_table5['DEBIT_TOTAL'] = pivot_table5.filter(like='DEBIT').sum(axis=1)
             pivot_table5['CREDIT_TOTAL'] = pivot_table5.filter(like='CREDIT').sum(axis=1)
 
+            rename_dict = {
+            'KELOMPOK': 'KEL',
+            'DEBIT_Simpanan Hari Raya': 'Db Sihara',
+            'DEBIT_Simpanan Pensiun': 'Db Pensiun',
+            'DEBIT_Simpanan Pokok': 'Db Pokok',
+            'DEBIT_Simpanan Sukarela': 'Db Sukarela',
+            'DEBIT_Simpanan Wajib': 'Db Wajib',
+            'DEBIT_Simpanan Qurban': 'Db Qurban',
+            'DEBIT_Simpanan Sipadan': 'Db SIPADAN',
+            'DEBIT_Simpanan Khusus': 'Db Khusus',
+            'Debit_Total_Simpanan': 'Db Total',
+            'CREDIT_Simpanan Hari Raya': 'Cr Sihara',
+            'CREDIT_Simpanan Pensiun': 'Cr Pensiun',
+            'CREDIT_Simpanan Pokok': 'Cr Pokok',
+            'CREDIT_Simpanan Sukarela': 'Cr Sukarela',
+            'CREDIT_Simpanan Wajib': 'Cr Wajib',
+            'CREDIT_Simpanan Qurban': 'Cr Qurban',
+            'CREDIT_Simpanan Sipadan': 'Cr SIPADAN',
+            'CREDIT_Simpanan Khusus': 'Cr Khusus',
+            'Credit_Total_Simpanan': 'Cr Total
+            }
+            pivot_table5.columns = [rename_dict.get(col, col) for col in pivot_table.columns]
             st.write("Pivot Table THC Simpanan:")
             st.write(pivot_table5)
 
