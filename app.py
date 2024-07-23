@@ -192,14 +192,14 @@ if uploaded_files:
 
         st.download_button(
             label="Download THC Pinjaman sebagai Excel",
-            data=df4_excel,
+            data=df4_merged,
             file_name='THC_Pinjaman.xlsx',
             mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
 
         st.download_button(
             label="Download THC Simpanan sebagai Excel",
-            data=df5_excel,
+            data=df5_merged,
             file_name='THC_Simpanan.xlsx',
             mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
