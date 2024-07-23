@@ -228,35 +228,35 @@ if uploaded_files:
                 if col not in pivot_table5.columns:
                     pivot_table5[col] = 0
 
-            pivot_table5['DEBIT_TOTAL'] = pivot_table5.filter(like='DEBIT').sum(axis=1)
-            pivot_table5['CREDIT_TOTAL'] = pivot_table5.filter(like='CREDIT').sum(axis=1)
+pivot_table5['DEBIT_TOTAL'] = pivot_table5.filter(like='DEBIT').sum(axis=1)
+pivot_table5['CREDIT_TOTAL'] = pivot_table5.filter(like='CREDIT').sum(axis=1)
 
-rename_dict = {'KELOMPOK': 'KEL',
-                'DEBIT_Simpanan Hari Raya': 'Db Sihara',
-                'DEBIT_Simpanan Pensiun': 'Db Pensiun',
-                'DEBIT_Simpanan Pokok': 'Db Pokok',
-                'DEBIT_Simpanan Sukarela': 'Db Sukarela',
-                'DEBIT_Simpanan Wajib': 'Db Wajib',
-                'DEBIT_Simpanan Qurban': 'Db Qurban',
-                'DEBIT_Simpanan Sipadan': 'Db SIPADAN',
-                'DEBIT_Simpanan Khusus': 'Db Khusus',
-                'Debit_Total_Simpanan': 'Db Total',
-                'CREDIT_Simpanan Hari Raya': 'Cr Sihara',
-                'CREDIT_Simpanan Pensiun': 'Cr Pensiun',
-                'CREDIT_Simpanan Pokok': 'Cr Pokok',
-                'CREDIT_Simpanan Sukarela': 'Cr Sukarela',
-                'CREDIT_Simpanan Wajib': 'Cr Wajib',
-                'CREDIT_Simpanan Qurban': 'Cr Qurban',
-                'CREDIT_Simpanan Sipadan': 'Cr SIPADAN',
-                'CREDIT_Simpanan Khusus': 'Cr Khusus',
-                'Credit_Total_Simpanan': 'Cr Total'
-                }
-            
-            pivot_table5 = pivot_table5.rename(columns=rename_dict)
-            
-            st.write("Pivot Table THC Simpanan:")
-            st.write(pivot_table5)
+rename_dict = {
+    'KELOMPOK': 'KEL',
+    'DEBIT_Simpanan Hari Raya': 'Db Sihara',
+    'DEBIT_Simpanan Pensiun': 'Db Pensiun',
+    'DEBIT_Simpanan Pokok': 'Db Pokok',
+    'DEBIT_Simpanan Sukarela': 'Db Sukarela',
+    'DEBIT_Simpanan Wajib': 'Db Wajib',
+    'DEBIT_Simpanan Qurban': 'Db Qurban',
+    'DEBIT_Simpanan Sipadan': 'Db SIPADAN',
+    'DEBIT_Simpanan Khusus': 'Db Khusus',
+    'Debit_Total_Simpanan': 'Db Total',
+    'CREDIT_Simpanan Hari Raya': 'Cr Sihara',
+    'CREDIT_Simpanan Pensiun': 'Cr Pensiun',
+    'CREDIT_Simpanan Pokok': 'Cr Pokok',
+    'CREDIT_Simpanan Sukarela': 'Cr Sukarela',
+    'CREDIT_Simpanan Wajib': 'Cr Wajib',
+    'CREDIT_Simpanan Qurban': 'Cr Qurban',
+    'CREDIT_Simpanan Sipadan': 'Cr SIPADAN',
+    'CREDIT_Simpanan Khusus': 'Cr Khusus',
+    'Credit_Total_Simpanan': 'Cr Total'
+}
 
+pivot_table5 = pivot_table5.rename(columns=rename_dict)
+
+st.write("Pivot Table THC Simpanan:")
+st.write(pivot_table5)
             # Download links for pivot tables
             for name, df in {
                 'pivot_pinjaman.xlsx': pivot_table4,
