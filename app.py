@@ -52,7 +52,7 @@ if uploaded_files:
         df1['Client ID'] = df1['Account No']
         df1['Account No'] = temp_client_id
         
-        df1.columns = ['NO.', 'DOCUMENT NO.', 'ID ANGGOTA', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'JENIS SIMPANAN'] + list(df1.columns[10:])
+        df1.columns = ['NO.', 'DOCUMENT NO.', 'ID ANGGOTA', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL','JENIS SIMPANAN'] + list(df1.columns[10:])
         
         df1['NO.'] = df1['NO.'].apply(format_no)
         df1['CENTER'] = df1['CENTER'].apply(format_center)
@@ -234,27 +234,14 @@ if uploaded_files:
             st.write("Pivot Table THC Simpanan:")
             st.write(pivot_table5)
 
-            # Save final result
-            final_result = df6_merged.copy()
-
-            final_result['DUMMY'] = final_result['ID ANGGOTA'] + '' + final_result['TRANS. DATE']
-            final_result = pd.merge(final_result, pivot_table4, on='DUMMY', how='left')
-            final_result = pd.merge(final_result, pivot_table5, on='DUMMY', how='left')
-
-            # Process final result
-            final_result['DEBIT_TOTAL'] = final_result[['DEBIT_TOTAL_x', 'DEBIT_TOTAL_y']].sum(axis=1)
-            final_result['CREDIT_TOTAL'] = final_result[['CREDIT_TOTAL_x', 'CREDIT_TOTAL_y']].sum(axis=1)
-            
-            final_result = final_result.fillna(0)
-            final_result = final_result.rename(columns=rename_dict)
-            final_result.to_excel('Final THC.xlsx', index=False)
-            
-            # Save additional results
-            with pd.ExcelWriter('Additional_Files.xlsx') as writer:
-                pivot_table4.to_excel(writer, sheet_name='pivot_pinjaman', index=False)
-                pivot_table5.to_excel(writer, sheet_name='pivot_simpanan', index=False)
-                df_pinjaman_na.to_excel(writer, sheet_name='Pinjaman_NA', index=False)
-                df_simpanan_na.to_excel(writer, sheet_name='Simpanan_NA', index=False)
-                
-            st.download_button(label='Unduh Final THC.xlsx', data=open('Final THC.xlsx', 'rb').read(), file_name='Final THC.xlsx', mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-            st.download_button(label='Unduh Additional Files.xlsx', data=open('Additional_Files.xlsx', 'rb').read(), file_name='Additional_Files.xlsx', mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            # Download links for pivot tables
+            for name, df in {
+                'pivot_pinjaman.xlsx': pivot_table4,
+                'pivot_simpanan.xlsx': pivot_table5,
+                'pinjaman_na.xlsx' : df_pinjaman_na,
+                'simpanan_na.xlsx' : df_simpanan_na
+            }.items():
+                buffer = io.BytesIO()
+                with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+                    df.to_excel(writer, index=False, sheet_name='Sheet1')
+                st.download_button(label=f"Unduh {name}", data=buffer.getvalue(), file_name=name, mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
