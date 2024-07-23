@@ -141,7 +141,7 @@ if uploaded_files:
             
             # Merge untuk simpanan
             df5_merged = pd.merge(df5, df1[['DOCUMENT NO.', 'ID ANGGOTA', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'JENIS SIMPANAN']], on='DOCUMENT NO.', how='left')
-            rename_dict {
+            rename_dict = {
             'KELOMPOK' : 'KEL',
             'DEBIT_Simpanan Hari Raya': 'Db Sihara',
             'DEBIT_Simpanan Pensiun': 'Db Pensiun',
