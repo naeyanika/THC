@@ -190,7 +190,7 @@ if uploaded_files:
 
 if 'pivot_table4' in locals():
     if not pivot_table4.empty:
-        # Definisikan rename_dict
+        # Rename columns
         rename_dict = {
             'KELOMPOK': 'KEL',
             'DEBIT_PINJAMAN ARTA': 'Db PRT',
@@ -212,16 +212,29 @@ if 'pivot_table4' in locals():
             'CREDIT_PINJAMAN PERTANIAN': 'Cr PTN',
             'CREDIT_TOTAL': 'Cr Total2'
         }
-
-        # Periksa apakah semua kolom yang akan di-rename ada di pivot_table4
+        
         columns_to_rename = set(rename_dict.keys()) & set(pivot_table4.columns)
         rename_dict_filtered = {k: v for k, v in rename_dict.items() if k in columns_to_rename}
-
-        # Lakukan rename
         pivot_table4 = pivot_table4.rename(columns=rename_dict_filtered)
 
-        st.write("Pivot Table THC Pinjaman:")
-        st.write(pivot_table4)
+        # Konversi nilai mata uang
+        def currency_to_float(x):
+            if isinstance(x, str):
+                return float(x.replace('Rp ', '').replace(',', ''))
+            return x
+
+        for col in pivot_table4.columns:
+            if pivot_table4[col].dtype == 'object':
+                pivot_table4[col] = pivot_table4[col].apply(currency_to_float)
+
+        # Tangani nilai NaN
+        pivot_table4 = pivot_table4.fillna(0)
+
+        st.write("Tipe data kolom:")
+        st.write(pivot_table4.dtypes)
+
+        st.write("Pivot Table THC Pinjaman (10 baris pertama):")
+        st.dataframe(pivot_table4.head(10))
     else:
         st.write("Pivot Table THC Pinjaman kosong.")
 else:
