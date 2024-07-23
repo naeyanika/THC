@@ -191,7 +191,6 @@ if uploaded_files:
                 'DEBIT_PINJAMAN ARTA': 'Db PRT',
                 'DEBIT_PINJAMAN DT. PENDIDIKAN': 'Db DTP',
                 'DEBIT_PINJAMAN MIKRO BISNIS': 'Db PMB',
-                'DEBIT_PINJAMAN MIKROBISNIS' : 'Db PMB',
                 'DEBIT_PINJAMAN SANITASI': 'Db PSA',
                 'DEBIT_PINJAMAN UMUM': 'Db PU',
                 'DEBIT_PINJAMAN RENOVASI RUMAH': 'Db PRR',
@@ -200,13 +199,21 @@ if uploaded_files:
                 'CREDIT_PINJAMAN ARTA': 'Cr PRT',
                 'CREDIT_PINJAMAN DT. PENDIDIKAN': 'Cr DTP',
                 'CREDIT_PINJAMAN MIKROBISNIS': 'Cr PMB',
-                'CREDIT_PINJAMAN MIKRO BISNIS' : 'Cr PMB',
                 'CREDIT_PINJAMAN SANITASI': 'Cr PSA',
                 'CREDIT_PINJAMAN UMUM': 'Cr PU',
                 'CREDIT_PINJAMAN RENOVASI RUMAH': 'Cr PRR',
                 'CREDIT_PINJAMAN PERTANIAN': 'Cr PTN',
                 'Credit_Total_Pinjaman': 'Cr Total2'
             }
+            rename_dict_1 = {
+            'DEBIT_PINJAMAN MIKROBISNIS': 'Dr PMB',
+            'CREDIT_PINJAMAN MIKROBISNIS': 'Cr PMB',
+   
+                if 'CREDIT_PINJAMAN MIKROBISNIS' in pivot_columns or 'CREDIT_PINJAMAN MIKRO BISNIS' in pivot_columns:
+                rename_dict = rename_dict_1
+                else:
+                rename_dict = {}
+
             pivot_table4.columns = [rename_dict.get(col, col) for col in pivot_table4.columns]
             st.write("Pivot Table THC Pinjaman:")
             st.write(pivot_table4)
