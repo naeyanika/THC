@@ -231,8 +231,7 @@ if uploaded_files:
             pivot_table5['DEBIT_TOTAL'] = pivot_table5.filter(like='DEBIT').sum(axis=1)
             pivot_table5['CREDIT_TOTAL'] = pivot_table5.filter(like='CREDIT').sum(axis=1)
 
-                rename_dict = {
-                'KELOMPOK': 'KEL',
+rename_dict = {'KELOMPOK': 'KEL',
                 'DEBIT_Simpanan Hari Raya': 'Db Sihara',
                 'DEBIT_Simpanan Pensiun': 'Db Pensiun',
                 'DEBIT_Simpanan Pokok': 'Db Pokok',
