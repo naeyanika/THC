@@ -234,9 +234,6 @@ if uploaded_files:
             st.write("Pivot Table THC Simpanan:")
             st.write(pivot_table5)
 
-            # Save final result
-            final_result = df6_merged.copy()
-
             final_result['DUMMY'] = final_result['ID ANGGOTA'] + '' + final_result['TRANS. DATE']
             final_result = pd.merge(final_result, pivot_table4, on='DUMMY', how='left')
             final_result = pd.merge(final_result, pivot_table5, on='DUMMY', how='left')
