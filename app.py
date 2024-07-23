@@ -214,7 +214,6 @@ if uploaded_files:
                 else:
                 rename_dict = {}
 
-            pivot_table4.columns = [rename_dict.get(col, col) for col in pivot_table4.columns]
             st.write("Pivot Table THC Pinjaman:")
             st.write(pivot_table4)
 
