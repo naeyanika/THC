@@ -258,22 +258,20 @@ pivot_table5 = pivot_table5.rename(columns=rename_dict)
 st.write("Pivot Table THC Simpanan:")
 st.write(pivot_table5)
 
-# Hapus indentasi di sini
-if some_condition: 
-    # Download links for pivot tables
-    for name, df in {
-        'pivot_pinjaman.xlsx': pivot_table4,
-        'pivot_simpanan.xlsx': pivot_table5,
-        'pinjaman_na.xlsx': df_pinjaman_na,
-        'simpanan_na.xlsx': df_simpanan_na
-    }.items():
-        buffer = io.BytesIO()
-        with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-            df.to_excel(writer, index=False, sheet_name='Sheet1')
-        buffer.seek(0)
-        st.download_button(
-            label=f"Unduh {name}",
-            data=buffer.getvalue(),
-            file_name=name,
-            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
+# Download links for pivot tables
+for name, df in {
+    'pivot_pinjaman.xlsx': pivot_table4,
+    'pivot_simpanan.xlsx': pivot_table5,
+    'pinjaman_na.xlsx': df_pinjaman_na,
+    'simpanan_na.xlsx': df_simpanan_na
+}.items():
+    buffer = io.BytesIO()
+    with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+        df.to_excel(writer, index=False, sheet_name='Sheet1')
+    buffer.seek(0)
+    st.download_button(
+        label=f"Unduh {name}",
+        data=buffer.getvalue(),
+        file_name=name,
+        mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
