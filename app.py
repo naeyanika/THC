@@ -178,12 +178,6 @@ if uploaded_files:
                 'CREDIT_PINJAMAN DT. PENDIDIKAN',
                 'CREDIT_PINJAMAN PERTANIAN'
             ]
-            
-numeric_columns = pivot_table4.select_dtypes(include=[np.number]).columns
-pivot_table4[numeric_columns] = pivot_table4[numeric_columns].astype(float)
-
-pivot_table4 = pivot_table4.fillna(0)
-pivot_table4 = pivot_table4.replace({np.nan: '', None: ''})
 
             for col in new_columns4:
                 if col not in pivot_table4.columns:
@@ -229,6 +223,14 @@ if 'DEBIT_PINJAMAN MIKROBISNIS' in pivot_columns or 'DEBIT_PINJAMAN MIKRO BISNIS
 
 # Menerapkan rename_dict
 pivot_table4.rename(columns=rename_dict, inplace=True)
+
+            
+numeric_columns = pivot_table4.select_dtypes(include=[np.number]).columns
+pivot_table4[numeric_columns] = pivot_table4[numeric_columns].astype(float)
+
+pivot_table4 = pivot_table4.fillna(0)
+pivot_table4 = pivot_table4.replace({np.nan: '', None: ''})
+
 
 # Menampilkan tabel
 st.write("Pivot Table THC Pinjaman:")
