@@ -3,9 +3,9 @@ import pandas as pd
 import numpy as np
 import io
 
-df1 = pd.read_csv("data/DbSimpanan.csv", delimiter=";", low_memory=False)
-df2 = pd.read_csv("data/DbPinjaman.csv", delimiter=";", low_memory=False)
-df3 = pd.read_csv("data/THC.csv", delimiter=";", low_memory=False)
+df1 = pd.read_csv("data/DbSimpanan.csv")
+df2 = pd.read_csv("data/DbPinjaman.csv")
+df3 = pd.read_csv("data/THC.csv")
 
 
 #DF 1 DB SIMPANAN
