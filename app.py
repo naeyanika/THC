@@ -143,8 +143,8 @@ if uploaded_files:
 
             # Download links
             for name, df in {
-                'THC_Pinjaman.xlsx': df4,
-                'THC_Simpanan.xlsx': df5,
+                'THC_Pinjaman.xlsx': df4_merged,
+                'THC_Simpanan.xlsx': df5_merged,
                 'Pinjaman_NA.xlsx': df_pinjaman_na,
                 'Simpanan_NA.xlsx': df_simpanan_na
             }.items():
