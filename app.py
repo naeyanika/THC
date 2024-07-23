@@ -246,9 +246,7 @@ if uploaded_files:
             final_result['CREDIT_TOTAL'] = final_result[['CREDIT_TOTAL_x', 'CREDIT_TOTAL_y']].sum(axis=1)
             
             final_result = final_result.fillna(0)
-            
-            # Apply renaming here
-            final_result.rename(columns=rename_dict = {
+            final_result = final_result.rename(columns=rename_dict)  rename_dict = {
     'KELOMPOK': 'KEL',
     'DEBIT_Simpanan Hari Raya': 'Db Sihara',
     'DEBIT_Simpanan Pensiun': 'Db Pensiun',
@@ -284,8 +282,7 @@ if uploaded_files:
     'CREDIT_PINJAMAN RENOVASI RUMAH': 'Cr PRR',
     'CREDIT_PINJAMAN PERTANIAN': 'Cr PTN',
     'Credit_Total_Pinjaman': 'Cr Total2'
-}, inplace=True)
-
+}
             final_result.to_excel('Final THC.xlsx', index=False)
             
             # Save additional results
