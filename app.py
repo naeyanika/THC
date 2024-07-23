@@ -233,9 +233,9 @@ st.write(pivot_table4)
 
 # PIVOT DF5
 df5_merged['TRANS. DATE'] = pd.to_datetime(df5_merged['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
-    df5_merged['DUMMY'] = df5_merged['ID ANGGOTA'] + '' + df5_merged['TRANS. DATE']
+df5_merged['DUMMY'] = df5_merged['ID ANGGOTA'] + '' + df5_merged['TRANS. DATE']
 
-    pivot_table5 = pd.pivot_table(df5_merged,
+pivot_table5 = pd.pivot_table(df5_merged,
                                   values=['DEBIT', 'CREDIT'],
                                   index=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'],
                                   columns='JENIS SIMPANAN',
