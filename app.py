@@ -258,8 +258,8 @@ pivot_table5 = pivot_table5.rename(columns=rename_dict)
 st.write("Pivot Table THC Simpanan:")
 st.write(pivot_table5)
 
-
-        if some_condition: 
+# Hapus indentasi di sini
+if some_condition: 
     # Download links for pivot tables
     for name, df in {
         'pivot_pinjaman.xlsx': pivot_table4,
