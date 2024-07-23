@@ -244,10 +244,8 @@ if uploaded_files:
             # Process final result
             final_result['DEBIT_TOTAL'] = final_result[['DEBIT_TOTAL_x', 'DEBIT_TOTAL_y']].sum(axis=1)
             final_result['CREDIT_TOTAL'] = final_result[['CREDIT_TOTAL_x', 'CREDIT_TOTAL_y']].sum(axis=1)
-            
             final_result = final_result.fillna(0)
-            final_result = final_result.rename(columns=rename_dict)  
-            rename_dict = {
+            final_result = rename_dict = {
     'KELOMPOK': 'KEL',
     'DEBIT_Simpanan Hari Raya': 'Db Sihara',
     'DEBIT_Simpanan Pensiun': 'Db Pensiun',
