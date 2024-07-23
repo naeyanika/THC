@@ -229,8 +229,10 @@ pivot_table4.rename(columns=rename_dict, inplace=True)
 #st.write("Pivot Table THC Pinjaman:")
 #st.write(pivot_table4)
 
-st.write("Pivot Table THC Pinjaman (10 baris pertama):")
-st.write(pivot_table4.head(10))
+buffer = io.StringIO()
+pivot_table4.info(buf=buffer)
+s = buffer.getvalue()
+st.text(s)
 
 # PIVOT DF5
 df5_merged['TRANS. DATE'] = pd.to_datetime(df5_merged['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
