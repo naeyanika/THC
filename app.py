@@ -119,49 +119,9 @@ if uploaded_files:
         if 'DbSimpanan.csv' in dfs and 'DbPinjaman.csv' in dfs:
             # Merge untuk pinjaman
             df4_merged = pd.merge(df4, df2[['DOCUMENT NO.', 'ID ANGGOTA', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'JENIS PINJAMAN']], on='DOCUMENT NO.', how='left')
-            rename_dict = {
-            'KELOMPOK' : 'KEL',
-            'DEBIT_PINJAMAN ARTA': 'Db PRT',
-            'DEBIT_PINJAMAN DT. PENDIDIKAN': 'Db DTP',
-            'DEBIT_PINJAMAN MIKROBISNIS': 'Db PMB',
-            'DEBIT_PINJAMAN SANITASI': 'Db PSA',
-            'DEBIT_PINJAMAN UMUM': 'Db PU',
-            'DEBIT_PINJAMAN RENOVASI RUMAH': 'Db PRR',
-            'DEBIT_PINJAMAN PERTANIAN': 'Db PTN',
-            'Debit_Total_Pinjaman': 'Db Total2',
-            'CREDIT_PINJAMAN ARTA': 'Cr PRT',
-            'CREDIT_PINJAMAN DT. PENDIDIKAN': 'Cr DTP',
-            'CREDIT_PINJAMAN MIKROBISNIS': 'Cr PMB',
-            'CREDIT_PINJAMAN SANITASI': 'Cr PSA',
-            'CREDIT_PINJAMAN UMUM': 'Cr PU',
-            'CREDIT_PINJAMAN RENOVASI RUMAH': 'Cr PRR',
-            'CREDIT_PINJAMAN PERTANIAN': 'Cr PTN',
-            'Credit_Total_Pinjaman': 'Cr Total2'
-            }
             
             # Merge untuk simpanan
             df5_merged = pd.merge(df5, df1[['DOCUMENT NO.', 'ID ANGGOTA', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'JENIS SIMPANAN']], on='DOCUMENT NO.', how='left')
-            rename_dict = {
-            'KELOMPOK' : 'KEL',
-            'DEBIT_Simpanan Hari Raya': 'Db Sihara',
-            'DEBIT_Simpanan Pensiun': 'Db Pensiun',
-            'DEBIT_Simpanan Pokok': 'Db Pokok',
-            'DEBIT_Simpanan Sukarela': 'Db Sukarela',
-            'DEBIT_Simpanan Wajib': 'Db Wajib',
-            'DEBIT_Simpanan Qurban': 'Db Qurban',
-            'DEBIT_Simpanan Sipadan': 'Db SIPADAN',
-            'DEBIT_Simpanan Khusus': 'Db Khusus',
-            'Debit_Total_Simpanan': 'Db Total',
-            'CREDIT_Simpanan Hari Raya': 'Cr Sihara',
-            'CREDIT_Simpanan Pensiun': 'Cr Pensiun',
-            'CREDIT_Simpanan Pokok': 'Cr Pokok',
-            'CREDIT_Simpanan Sukarela': 'Cr Sukarela',
-            'CREDIT_Simpanan Wajib': 'Cr Wajib',
-            'CREDIT_Simpanan Qurban': 'Cr Qurban',
-            'CREDIT_Simpanan Sipadan': 'Cr SIPADAN',
-            'CREDIT_Simpanan Khusus': 'Cr Khusus',
-            'Credit_Total_Simpanan': 'Cr Total',
-            }
             
             # Filter N/A untuk pinjaman
             df_pinjaman_na = df4_merged[pd.isna(df4_merged['NAMA'])]
@@ -183,11 +143,12 @@ if uploaded_files:
 
             # Download links
             for name, df in {
-                'THC_Pinjaman.csv': df4,
-                'THC_Simpanan.csv': df5,
-                'Pinjaman_NA.csv': df_pinjaman_na,
-                'Simpanan_NA.csv': df_simpanan_na
+                'THC_Pinjaman.xlsx': df4,
+                'THC_Simpanan.xlsx': df5,
+                'Pinjaman_NA.xlsx': df_pinjaman_na,
+                'Simpanan_NA.xlsx': df_simpanan_na
             }.items():
                 buffer = io.BytesIO()
-                df.to_csv(buffer, index=False)
-                st.download_button(label=f"Unduh {name}", data=buffer.getvalue(), file_name=name, mime='text/csv')
+                with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+                    df.to_excel(writer, index=False, sheet_name='Sheet1')
+                st.download_button(label=f"Unduh {name}", data=buffer.getvalue(), file_name=name, mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
