@@ -185,59 +185,10 @@ if uploaded_files:
 
             pivot_table4['DEBIT_TOTAL'] = pivot_table4.filter(like='DEBIT').sum(axis=1)
             pivot_table4['CREDIT_TOTAL'] = pivot_table4.filter(like='CREDIT').sum(axis=1)
+            
+st.write("Pivot Table THC Pinjaman:")
+st.write(pivot_table4)
 
-# Setelah semua proses yang seharusnya membuat pivot_table4
-
-if 'pivot_table4' in locals():
-    if not pivot_table4.empty:
-        # Rename columns
-        rename_dict = {
-            'KELOMPOK': 'KEL',
-            'DEBIT_PINJAMAN ARTA': 'Db PRT',
-            'DEBIT_PINJAMAN DT. PENDIDIKAN': 'Db DTP',
-            'DEBIT_PINJAMAN MIKROBISNIS': 'Db PMB',
-            'DEBIT_PINJAMAN SANITASI': 'Db PSA',
-            'DEBIT_PINJAMAN UMUM': 'Db PU',
-            'DEBIT_PINJAMAN RENOVASI RUMAH': 'Db PRR',
-            'DEBIT_PINJAMAN PERTANIAN': 'Db PTN',
-            'DEBIT_TOTAL': 'Db Total2',
-            'CREDIT_PINJAMAN ARTA': 'Cr PRT',
-            'CREDIT_PINJAMAN DT. PENDIDIKAN': 'Cr DTP',
-            'CREDIT_PINJAMAN MIKROBISNIS': 'Cr PMB',
-            'CREDIT_PINJAMAN SANITASI': 'Cr PSA',
-            'CREDIT_PINJAMAN UMUM': 'Cr PU',
-            'CREDIT_PINJAMAN RENOVASI RUMAH': 'Cr PRR',
-            'CREDIT_PINJAMAN PERTANIAN': 'Cr PTN',
-            'CREDIT_TOTAL': 'Cr Total2'
-        }
-        
-        columns_to_rename = set(rename_dict.keys()) & set(pivot_table4.columns)
-        rename_dict_filtered = {k: v for k, v in rename_dict.items() if k in columns_to_rename}
-        pivot_table4 = pivot_table4.rename(columns=rename_dict_filtered)
-
-        # Konversi nilai mata uang
-        def currency_to_float(x):
-            if isinstance(x, str):
-                return float(x.replace('Rp ', '').replace(',', ''))
-            return x
-
-        for col in pivot_table4.columns:
-            if pivot_table4[col].dtype == 'object':
-                pivot_table4[col] = pivot_table4[col].apply(currency_to_float)
-
-        # Tangani nilai NaN
-        pivot_table4 = pivot_table4.fillna(0)
-
-        st.write("Tipe data kolom:")
-        st.write(pivot_table4.dtypes)
-
-        st.write("Pivot Table THC Pinjaman (10 baris pertama):")
-        st.dataframe(pivot_table4.head(10))
-    else:
-        st.write("Pivot Table THC Pinjaman kosong.")
-else:
-    st.write("Pivot Table THC Pinjaman belum dibuat. Periksa proses sebelumnya.")
-    
 # PIVOT DF5
 df5_merged['TRANS. DATE'] = pd.to_datetime(df5_merged['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
 df5_merged['DUMMY'] = df5_merged['ID ANGGOTA'] + '' + df5_merged['TRANS. DATE']
