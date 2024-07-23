@@ -231,24 +231,22 @@ st.write("Pivot Table THC Pinjaman:")
 st.write(pivot_table4)
 
 
-            # PIVOT DF5
-            df5_merged['TRANS. DATE'] = pd.to_datetime(df5_merged['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
-            df5_merged['DUMMY'] = df5_merged['ID ANGGOTA'] + '' + df5_merged['TRANS. DATE']
+# PIVOT DF5
+df5_merged['TRANS. DATE'] = pd.to_datetime(df5_merged['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
+    df5_merged['DUMMY'] = df5_merged['ID ANGGOTA'] + '' + df5_merged['TRANS. DATE']
 
-            pivot_table5 = pd.pivot_table(df5_merged,
-                                          values=['DEBIT', 'CREDIT'],
-                                          index=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'],
-                                          columns='JENIS SIMPANAN',
-                                          aggfunc={'DEBIT': list, 'CREDIT': list},
-                                          fill_value=0)
+    pivot_table5 = pd.pivot_table(df5_merged,
+                                  values=['DEBIT', 'CREDIT'],
+                                  index=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'],
+                                  columns='JENIS SIMPANAN',
+                                  aggfunc={'DEBIT': list, 'CREDIT': list},
+                                  fill_value=0)
+pivot_table5 = pivot_table5.applymap(sum_lists)
+pivot_table5.columns = [f'{col[0]}_{col[1]}' for col in pivot_table5.columns]
+pivot_table5.reset_index(inplace=True)
+pivot_table5['TRANS. DATE'] = pd.to_datetime(pivot_table5['TRANS. DATE'], format='%d%m%Y').dt.strftime('%d/%m/%Y')
 
-            pivot_table5 = pivot_table5.applymap(sum_lists)
-            pivot_table5.columns = [f'{col[0]}_{col[1]}' for col in pivot_table5.columns]
-            pivot_table5.reset_index(inplace=True)
-            pivot_table5['TRANS. DATE'] = pd.to_datetime(pivot_table5['TRANS. DATE'], format='%d%m%Y').dt.strftime('%d/%m/%Y')
-
-            new_columns5 = [
-                'DEBIT_Simpanan Pensiun',
+new_columns5 = ['DEBIT_Simpanan Pensiun',
                 'DEBIT_Simpanan Pokok',
                 'DEBIT_Simpanan Sukarela',
                 'DEBIT_Simpanan Wajib',
@@ -270,11 +268,10 @@ st.write(pivot_table4)
                 if col not in pivot_table5.columns:
                     pivot_table5[col] = 0
 
-            pivot_table5['DEBIT_TOTAL'] = pivot_table5.filter(like='DEBIT').sum(axis=1)
-            pivot_table5['CREDIT_TOTAL'] = pivot_table5.filter(like='CREDIT').sum(axis=1)
+pivot_table5['DEBIT_TOTAL'] = pivot_table5.filter(like='DEBIT').sum(axis=1)
+pivot_table5['CREDIT_TOTAL'] = pivot_table5.filter(like='CREDIT').sum(axis=1)
 
-            rename_dict = {
-            'KELOMPOK': 'KEL',
+rename_dict = {'KELOMPOK': 'KEL',
             'DEBIT_Simpanan Hari Raya': 'Db Sihara',
             'DEBIT_Simpanan Pensiun': 'Db Pensiun',
             'DEBIT_Simpanan Pokok': 'Db Pokok',
@@ -294,18 +291,18 @@ st.write(pivot_table4)
             'CREDIT_Simpanan Khusus': 'Cr Khusus',
             'Credit_Total_Simpanan': 'Cr Total'
             }
-            pivot_table5.columns = [rename_dict.get(col, col) for col in pivot_table5.columns]
-            st.write("Pivot Table THC Simpanan:")
-            st.write(pivot_table5)
 
-            # Download links for pivot tables
-            for name, df in {
-                'pivot_pinjaman.xlsx': pivot_table4,
+pivot_table5.columns = [rename_dict.get(col, col) for col in pivot_table5.columns]
+st.write("Pivot Table THC Simpanan:")
+st.write(pivot_table5)
+
+# Download links for pivot tables
+for name, df in {'pivot_pinjaman.xlsx': pivot_table4,
                 'pivot_simpanan.xlsx': pivot_table5,
                 'pinjaman_na.xlsx' : df_pinjaman_na,
                 'simpanan_na.xlsx' : df_simpanan_na
-            }.items():
-                buffer = io.BytesIO()
-                with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-                    df.to_excel(writer, index=False, sheet_name='Sheet1')
-                st.download_button(label=f"Unduh {name}", data=buffer.getvalue(), file_name=name, mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+                }.items():
+buffer = io.BytesIO()
+with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+df.to_excel(writer, index=False, sheet_name='Sheet1')
+st.download_button(label=f"Unduh {name}", data=buffer.getvalue(), file_name=name, mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
