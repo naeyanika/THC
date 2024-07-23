@@ -205,7 +205,7 @@ if uploaded_files:
                 'CREDIT_PINJAMAN PERTANIAN': 'Cr PTN',
                 'Credit_Total_Pinjaman': 'Cr Total2'
             }
-            pivot_table4.columns = [rename_dict.get(col, col) for col in pivot_table.columns]
+            pivot_table4.columns = [rename_dict.get(col, col) for col in pivot_table4.columns]
             st.write("Pivot Table THC Pinjaman:")
             st.write(pivot_table4)
 
@@ -272,7 +272,7 @@ if uploaded_files:
             'CREDIT_Simpanan Khusus': 'Cr Khusus',
             'Credit_Total_Simpanan': 'Cr Total'
             }
-            pivot_table5.columns = [rename_dict.get(col, col) for col in pivot_table.columns]
+            pivot_table5.columns = [rename_dict.get(col, col) for col in pivot_table5.columns]
             st.write("Pivot Table THC Simpanan:")
             st.write(pivot_table5)
 
