@@ -214,11 +214,10 @@ if uploaded_files:
                 else:
                 rename_dict = {}
                 pivot_table4.rename(columns=rename_dict, inplace=True)
-                try:
-                st.write(pivot_table4)
-                except Exception as e:
-                st.error(f"Terjadi kesalahan saat menampilkan pivot_table4: {e}")
-            
+               
+            st.write("Pivot Table THC Pinjaman:")
+            st.write(pivot_table4)
+
             # PIVOT DF5
             df5_merged['TRANS. DATE'] = pd.to_datetime(df5_merged['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
             df5_merged['DUMMY'] = df5_merged['ID ANGGOTA'] + '' + df5_merged['TRANS. DATE']
