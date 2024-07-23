@@ -120,7 +120,7 @@ if uploaded_files:
             # Merge untuk pinjaman
             df4_merged = pd.merge(df4, df2[['DOCUMENT NO.', 'ID ANGGOTA', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'JENIS PINJAMAN']], on='DOCUMENT NO.', how='left')
             rename_dict = {
-            'KELOMPOK' = 'KEL',
+            'KELOMPOK' : 'KEL',
             'DEBIT_PINJAMAN ARTA': 'Db PRT',
             'DEBIT_PINJAMAN DT. PENDIDIKAN': 'Db DTP',
             'DEBIT_PINJAMAN MIKROBISNIS': 'Db PMB',
