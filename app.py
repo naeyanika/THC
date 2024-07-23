@@ -224,18 +224,13 @@ if 'DEBIT_PINJAMAN MIKROBISNIS' in pivot_columns or 'DEBIT_PINJAMAN MIKRO BISNIS
 # Menerapkan rename_dict
 pivot_table4.rename(columns=rename_dict, inplace=True)
 
-            
-numeric_columns = pivot_table4.select_dtypes(include=[np.number]).columns
-pivot_table4[numeric_columns] = pivot_table4[numeric_columns].astype(float)
-
-pivot_table4 = pivot_table4.fillna(0)
-pivot_table4 = pivot_table4.replace({np.nan: '', None: ''})
-
 
 # Menampilkan tabel
-st.write("Pivot Table THC Pinjaman:")
-st.write(pivot_table4)
+#st.write("Pivot Table THC Pinjaman:")
+#st.write(pivot_table4)
 
+st.write("Pivot Table THC Pinjaman:")
+st.write(pivot_table4.to_html(index=False), unsafe_allow_html=True)
 
 # PIVOT DF5
 df5_merged['TRANS. DATE'] = pd.to_datetime(df5_merged['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
