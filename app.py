@@ -237,7 +237,9 @@ if uploaded_files:
             # Download links for pivot tables
             for name, df in {
                 'pivot_pinjaman.xlsx': pivot_table4,
-                'pivot_simpanan.xlsx': pivot_table5
+                'pivot_simpanan.xlsx': pivot_table5,
+                'Pinjaman_NA.xlsx': df_pinjaman_na,
+                'Simpanan_NA.xlsx': df_simpanan_na
             }.items():
                 buffer = io.BytesIO()
                 with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
