@@ -187,8 +187,8 @@ if uploaded_files:
         return processed_data
 
     if 'THC.csv' in dfs:
-        df4_excel = to_excel(df4)
-        df5_excel = to_excel(df5)
+        df4_merged = to_excel(df4)
+        df5_merged = to_excel(df5)
 
         st.download_button(
             label="Download THC Pinjaman sebagai Excel",
