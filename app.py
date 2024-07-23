@@ -259,7 +259,7 @@ st.write("Pivot Table THC Simpanan:")
 st.write(pivot_table5)
 
 
-if some_condition:
+
     # Download links for pivot tables
     for name, df in {
         'pivot_pinjaman.xlsx': pivot_table4,
