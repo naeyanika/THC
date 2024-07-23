@@ -186,68 +186,27 @@ if uploaded_files:
             pivot_table4['DEBIT_TOTAL'] = pivot_table4.filter(like='DEBIT').sum(axis=1)
             pivot_table4['CREDIT_TOTAL'] = pivot_table4.filter(like='CREDIT').sum(axis=1)
 
-            rename_dict = {
-    'KELOMPOK': 'KEL',
-    'DEBIT_PINJAMAN ARTA': 'Db PRT',
-    'DEBIT_PINJAMAN DT. PENDIDIKAN': 'Db DTP',
-    'DEBIT_PINJAMAN MIKRO BISNIS': 'Db PMB',
-    'DEBIT_PINJAMAN SANITASI': 'Db PSA',
-    'DEBIT_PINJAMAN UMUM': 'Db PU',
-    'DEBIT_PINJAMAN RENOVASI RUMAH': 'Db PRR',
-    'DEBIT_PINJAMAN PERTANIAN': 'Db PTN',
-    'Debit_Total_Pinjaman': 'Db Total2',
-    'CREDIT_PINJAMAN ARTA': 'Cr PRT',
-    'CREDIT_PINJAMAN DT. PENDIDIKAN': 'Cr DTP',
-    'CREDIT_PINJAMAN MIKROBISNIS': 'Cr PMB',
-    'CREDIT_PINJAMAN SANITASI': 'Cr PSA',
-    'CREDIT_PINJAMAN UMUM': 'Cr PU',
-    'CREDIT_PINJAMAN RENOVASI RUMAH': 'Cr PRR',
-    'CREDIT_PINJAMAN PERTANIAN': 'Cr PTN',
-    'Credit_Total_Pinjaman': 'Cr Total2'
-}
+            st.write("Pivot Table THC Pinjaman:")
+            st.write(pivot_table4)
 
-rename_dict_1 = {
-    'DEBIT_PINJAMAN MIKROBISNIS': 'Db PMB',
-    'CREDIT_PINJAMAN MIKROBISNIS': 'Cr PMB',
-}
+            # PIVOT DF5
+            df5_merged['TRANS. DATE'] = pd.to_datetime(df5_merged['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
+            df5_merged['DUMMY'] = df5_merged['ID ANGGOTA'] + '' + df5_merged['TRANS. DATE']
 
-# Memeriksa kolom di pivot_table4
-# pivot_columns = pivot_table4.columns
+            pivot_table5 = pd.pivot_table(df5_merged,
+                                          values=['DEBIT', 'CREDIT'],
+                                          index=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'],
+                                          columns='JENIS SIMPANAN',
+                                          aggfunc={'DEBIT': list, 'CREDIT': list},
+                                          fill_value=0)
 
-# Menentukan rename_dict yang sesuai
-if 'CREDIT_PINJAMAN MIKROBISNIS' in pivot_columns or 'CREDIT_PINJAMAN MIKRO BISNIS' in pivot_columns:
-    rename_dict.update(rename_dict_1)  # Menambahkan atau memperbarui rename_dict dengan rename_dict_1
+            pivot_table5 = pivot_table5.applymap(sum_lists)
+            pivot_table5.columns = [f'{col[0]}_{col[1]}' for col in pivot_table5.columns]
+            pivot_table5.reset_index(inplace=True)
+            pivot_table5['TRANS. DATE'] = pd.to_datetime(pivot_table5['TRANS. DATE'], format='%d%m%Y').dt.strftime('%d/%m/%Y')
 
-if 'DEBIT_PINJAMAN MIKROBISNIS' in pivot_columns or 'DEBIT_PINJAMAN MIKRO BISNIS' in pivot_columns:
-    rename_dict.update(rename_dict_1)  # Menambahkan atau memperbarui rename_dict dengan rename_dict_1
-
-# Menerapkan rename_dict
-pivot_table4.rename(columns=rename_dict, inplace=True)
-
-
-# Menampilkan tabel
-#st.write("Pivot Table THC Pinjaman:")
-#st.write(pivot_table4)
-
-st.write("Pivot Table THC Pinjaman (10 baris pertama):")
-st.dataframe(pivot_table4.head(10))
-
-# PIVOT DF5
-df5_merged['TRANS. DATE'] = pd.to_datetime(df5_merged['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
-df5_merged['DUMMY'] = df5_merged['ID ANGGOTA'] + '' + df5_merged['TRANS. DATE']
-
-pivot_table5 = pd.pivot_table(df5_merged,
-                                  values=['DEBIT', 'CREDIT'],
-                                  index=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'],
-                                  columns='JENIS SIMPANAN',
-                                  aggfunc={'DEBIT': list, 'CREDIT': list},
-                                  fill_value=0)
-pivot_table5 = pivot_table5.applymap(sum_lists)
-pivot_table5.columns = [f'{col[0]}_{col[1]}' for col in pivot_table5.columns]
-pivot_table5.reset_index(inplace=True)
-pivot_table5['TRANS. DATE'] = pd.to_datetime(pivot_table5['TRANS. DATE'], format='%d%m%Y').dt.strftime('%d/%m/%Y')
-
-new_columns5 = ['DEBIT_Simpanan Pensiun',
+            new_columns5 = [
+                'DEBIT_Simpanan Pensiun',
                 'DEBIT_Simpanan Pokok',
                 'DEBIT_Simpanan Sukarela',
                 'DEBIT_Simpanan Wajib',
@@ -265,55 +224,24 @@ new_columns5 = ['DEBIT_Simpanan Pensiun',
                 'CREDIT_Simpanan Khusus'
             ]
 
-for col in new_columns5:
-    if col not in pivot_table5.columns:
-        pivot_table5[col] = 0
+            for col in new_columns5:
+                if col not in pivot_table5.columns:
+                    pivot_table5[col] = 0
 
-pivot_table5['DEBIT_TOTAL'] = pivot_table5.filter(like='DEBIT').sum(axis=1)
-pivot_table5['CREDIT_TOTAL'] = pivot_table5.filter(like='CREDIT').sum(axis=1)
+            pivot_table5['DEBIT_TOTAL'] = pivot_table5.filter(like='DEBIT').sum(axis=1)
+            pivot_table5['CREDIT_TOTAL'] = pivot_table5.filter(like='CREDIT').sum(axis=1)
 
-rename_dict = {'KELOMPOK': 'KEL',
-            'DEBIT_Simpanan Hari Raya': 'Db Sihara',
-            'DEBIT_Simpanan Pensiun': 'Db Pensiun',
-            'DEBIT_Simpanan Pokok': 'Db Pokok',
-            'DEBIT_Simpanan Sukarela': 'Db Sukarela',
-            'DEBIT_Simpanan Wajib': 'Db Wajib',
-            'DEBIT_Simpanan Qurban': 'Db Qurban',
-            'DEBIT_Simpanan Sipadan': 'Db SIPADAN',
-            'DEBIT_Simpanan Khusus': 'Db Khusus',
-            'Debit_Total_Simpanan': 'Db Total',
-            'CREDIT_Simpanan Hari Raya': 'Cr Sihara',
-            'CREDIT_Simpanan Pensiun': 'Cr Pensiun',
-            'CREDIT_Simpanan Pokok': 'Cr Pokok',
-            'CREDIT_Simpanan Sukarela': 'Cr Sukarela',
-            'CREDIT_Simpanan Wajib': 'Cr Wajib',
-            'CREDIT_Simpanan Qurban': 'Cr Qurban',
-            'CREDIT_Simpanan Sipadan': 'Cr SIPADAN',
-            'CREDIT_Simpanan Khusus': 'Cr Khusus',
-            'Credit_Total_Simpanan': 'Cr Total'
-            }
+            st.write("Pivot Table THC Simpanan:")
+            st.write(pivot_table5)
 
-pivot_table5.columns = [rename_dict.get(col, col) for col in pivot_table5.columns]
-st.write("Pivot Table THC Simpanan:")
-st.write(pivot_table5)
-
-st.write("Menyiapkan file untuk diunduh...")
-for name, df in files_and_dfs.items():
-    buffer = io.BytesIO()
-    try:
-        with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-            df.to_excel(writer, index=False, sheet_name='Sheet1')
-        
-        buffer.seek(0)  # Kembali ke awal buffer
-        
-        st.write(f"File {name} berhasil disiapkan.")
-        
-        st.download_button(
-            label=f"Unduh {name}",
-            data=buffer.getvalue(),
-            file_name=name,
-            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
-    
-    except Exception as e:
-        st.error(f"Terjadi kesalahan saat membuat file {name}: {e}")
+            # Download links for pivot tables
+            for name, df in {
+                'pivot_pinjaman.xlsx': pivot_table4,
+                'pivot_simpanan.xlsx': pivot_table5,
+                'pinjaman_na.xlsx' : df_pinjaman_na,
+                'simpanan_na.xlsx' : df_simpanan_na
+            }.items():
+                buffer = io.BytesIO()
+                with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+                    df.to_excel(writer, index=False, sheet_name='Sheet1')
+                st.download_button(label=f"Unduh {name}", data=buffer.getvalue(), file_name=name, mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
