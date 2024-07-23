@@ -294,26 +294,17 @@ pivot_table5.columns = [rename_dict.get(col, col) for col in pivot_table5.column
 st.write("Pivot Table THC Simpanan:")
 st.write(pivot_table5)
 
-# Daftar file dan DataFrame
-files_and_dfs = {
-    'pivot_pinjaman.xlsx': pivot_table4,
-    'pivot_simpanan.xlsx': pivot_table5,
-    'pinjaman_na.xlsx': df_pinjaman_na,
-    'simpanan_na.xlsx': df_simpanan_na
-}
-
-# Loop untuk membuat dan menyediakan file download
+st.write("Menyiapkan file untuk diunduh...")
 for name, df in files_and_dfs.items():
     buffer = io.BytesIO()
-    
     try:
-        # Simpan DataFrame ke buffer sebagai file Excel
         with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
             df.to_excel(writer, index=False, sheet_name='Sheet1')
-    
+        
         buffer.seek(0)  # Kembali ke awal buffer
-    
-        # Tampilkan tombol unduh untuk file Excel
+        
+        st.write(f"File {name} berhasil disiapkan.")
+        
         st.download_button(
             label=f"Unduh {name}",
             data=buffer.getvalue(),
