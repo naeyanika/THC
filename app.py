@@ -187,36 +187,49 @@ if uploaded_files:
             pivot_table4['CREDIT_TOTAL'] = pivot_table4.filter(like='CREDIT').sum(axis=1)
 
             rename_dict = {
-                'KELOMPOK': 'KEL',
-                'DEBIT_PINJAMAN ARTA': 'Db PRT',
-                'DEBIT_PINJAMAN DT. PENDIDIKAN': 'Db DTP',
-                'DEBIT_PINJAMAN MIKRO BISNIS': 'Db PMB',
-                'DEBIT_PINJAMAN SANITASI': 'Db PSA',
-                'DEBIT_PINJAMAN UMUM': 'Db PU',
-                'DEBIT_PINJAMAN RENOVASI RUMAH': 'Db PRR',
-                'DEBIT_PINJAMAN PERTANIAN': 'Db PTN',
-                'Debit_Total_Pinjaman': 'Db Total2',
-                'CREDIT_PINJAMAN ARTA': 'Cr PRT',
-                'CREDIT_PINJAMAN DT. PENDIDIKAN': 'Cr DTP',
-                'CREDIT_PINJAMAN MIKROBISNIS': 'Cr PMB',
-                'CREDIT_PINJAMAN SANITASI': 'Cr PSA',
-                'CREDIT_PINJAMAN UMUM': 'Cr PU',
-                'CREDIT_PINJAMAN RENOVASI RUMAH': 'Cr PRR',
-                'CREDIT_PINJAMAN PERTANIAN': 'Cr PTN',
-                'Credit_Total_Pinjaman': 'Cr Total2'
-            }
-            rename_dict_1 = {
-            'DEBIT_PINJAMAN MIKROBISNIS': 'Dr PMB',
-            'CREDIT_PINJAMAN MIKROBISNIS': 'Cr PMB',
-            }
-                if 'CREDIT_PINJAMAN MIKROBISNIS' in pivot_columns or 'CREDIT_PINJAMAN MIKRO BISNIS' in pivot_columns:
-                rename_dict = rename_dict_1
-                else:
-                rename_dict = {}
-                pivot_table4.rename(columns=rename_dict, inplace=True)
-               
-            st.write("Pivot Table THC Pinjaman:")
-            st.write(pivot_table4)
+    'KELOMPOK': 'KEL',
+    'DEBIT_PINJAMAN ARTA': 'Db PRT',
+    'DEBIT_PINJAMAN DT. PENDIDIKAN': 'Db DTP',
+    'DEBIT_PINJAMAN MIKRO BISNIS': 'Db PMB',
+    'DEBIT_PINJAMAN SANITASI': 'Db PSA',
+    'DEBIT_PINJAMAN UMUM': 'Db PU',
+    'DEBIT_PINJAMAN RENOVASI RUMAH': 'Db PRR',
+    'DEBIT_PINJAMAN PERTANIAN': 'Db PTN',
+    'Debit_Total_Pinjaman': 'Db Total2',
+    'CREDIT_PINJAMAN ARTA': 'Cr PRT',
+    'CREDIT_PINJAMAN DT. PENDIDIKAN': 'Cr DTP',
+    'CREDIT_PINJAMAN MIKROBISNIS': 'Cr PMB',
+    'CREDIT_PINJAMAN SANITASI': 'Cr PSA',
+    'CREDIT_PINJAMAN UMUM': 'Cr PU',
+    'CREDIT_PINJAMAN RENOVASI RUMAH': 'Cr PRR',
+    'CREDIT_PINJAMAN PERTANIAN': 'Cr PTN',
+    'Credit_Total_Pinjaman': 'Cr Total2'
+}
+
+rename_dict_1 = {
+    'DEBIT_PINJAMAN MIKROBISNIS': 'Db PMB',
+    'CREDIT_PINJAMAN MIKROBISNIS': 'Cr PMB',
+}
+
+# Memeriksa kolom di pivot_table4
+pivot_columns = pivot_table4.columns
+
+# Menentukan rename_dict yang sesuai
+if 'CREDIT_PINJAMAN MIKROBISNIS' in pivot_columns or 'CREDIT_PINJAMAN MIKRO BISNIS' in pivot_columns:
+    rename_dict = rename_dict_1
+else:
+    rename_dict = {}
+if 'DEBIT_PINJAMAN MIKROBISNIS' in pivot_columns or 'DEBIT_PINJAMAN MIKRO BISNIS' in pivot_columns:
+    rename_dict = rename_dict_1
+else:
+    rename_dict = {}
+# Menerapkan rename_dict
+pivot_table4.rename(columns=rename_dict, inplace=True)
+
+# Menampilkan tabel
+st.write("Pivot Table THC Pinjaman:")
+st.write(pivot_table4)
+
 
             # PIVOT DF5
             df5_merged['TRANS. DATE'] = pd.to_datetime(df5_merged['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
