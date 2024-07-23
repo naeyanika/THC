@@ -264,8 +264,7 @@ new_columns5 = ['DEBIT_Simpanan Pensiun',
                 'CREDIT_Simpanan Khusus'
             ]
 
-for col in new_columns5:
-if col not in pivot_table5.columns:pivot_table5[col] = 0
+for col in new_columns5: if col not in pivot_table5.columns:pivot_table5[col] = 0
 
 pivot_table5['DEBIT_TOTAL'] = pivot_table5.filter(like='DEBIT').sum(axis=1)
 pivot_table5['CREDIT_TOTAL'] = pivot_table5.filter(like='CREDIT').sum(axis=1)
