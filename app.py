@@ -4,6 +4,11 @@ import numpy as np
 import io
 
 st.title('Aplikasi Pengolahan THC')
+st.write("""
+*1. Format file harus bernama dan menggunakan ekstensi csv, sehingga seperti ini : THC.csv, DbPinjaman.csv, DbSimpanan.csv.*
+*2. File nya di rapikan header dan footer nya.*
+""")
+st.markdown("*Catatan 3: Jika penjelasan diatas kurang paham, kalian bisa lihat contoh <a href='https://drive.google.com/drive/folders/1NNXdgrCEK7bN6ZHbKPF2V5HSUyjKnLNV>dokumen tersebut disini</a>.*", unsafe_allow_html=True)
 
 # Function to format numbers
 def format_no(no):
