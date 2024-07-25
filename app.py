@@ -6,7 +6,7 @@ import io
 st.title('Aplikasi Pengolahan THC')
 st.write("""1. Format file harus bernama dan menggunakan ekstensi csv, sehingga seperti ini : THC.csv, DbPinjaman.csv, DbSimpanan.csv.""")
 st.write("""2. File nya di rapikan header dan footer nya.""")
-st.write("""3. ika penjelasan diatas kurang paham, kalian bisa lihat contohnya link dibawah ini : https://bit.ly/contoh-data-thc""")
+st.write("""3. Jika penjelasan diatas kurang paham, kalian bisa lihat contohnya link dibawah ini : https://bit.ly/contoh-data-thc""")
 
 # Function to format numbers
 def format_no(no):
