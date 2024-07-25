@@ -119,6 +119,10 @@ if uploaded_files:
         if 'DbSimpanan.csv' in dfs and 'DbPinjaman.csv' in dfs:
             # Merge untuk pinjaman
             df4_merged = pd.merge(df4, df2[['DOCUMENT NO.', 'ID ANGGOTA', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'JENIS PINJAMAN']], on='DOCUMENT NO.', how='left')
+            rename_dict = {
+            'MIKRO BISNIS': 'MIKROBISNIS',
+            }
+            df4_merged = df4_merged.rename(columns=rename_dict)
             
             # Merge untuk simpanan
             df5_merged = pd.merge(df5, df1[['DOCUMENT NO.', 'ID ANGGOTA', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'JENIS SIMPANAN']], on='DOCUMENT NO.', how='left')
