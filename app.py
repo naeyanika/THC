@@ -119,18 +119,11 @@ if uploaded_files:
         if 'DbSimpanan.csv' in dfs and 'DbPinjaman.csv' in dfs:
             # Merge untuk pinjaman
             df4_merged = pd.merge(df4, df2[['DOCUMENT NO.', 'ID ANGGOTA', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'JENIS PINJAMAN']], on='DOCUMENT NO.', how='left')
-                
-            st.write("Nilai unik dalam 'JENIS PINJAMAN' sebelum penggantian:")
-            st.write(df4_merged['JENIS PINJAMAN'].unique())
-    
+
             rename_dict = {
-            'MIKRO BISNIS': 'MIKROBISNIS',
+            'PINJAMAN MIKRO BISNIS': 'PINJAMAN MIKROBISNIS',
             }
             df4_merged['JENIS PINJAMAN'] = df4_merged['JENIS PINJAMAN'].replace(rename_dict)
-    
-            # Tampilkan nilai unik setelah penggantian
-            st.write("Nilai unik dalam 'JENIS PINJAMAN' setelah penggantian:")
-            st.write(df4_merged['JENIS PINJAMAN'].unique())
             
             # Merge untuk simpanan
             df5_merged = pd.merge(df5, df1[['DOCUMENT NO.', 'ID ANGGOTA', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'JENIS SIMPANAN']], on='DOCUMENT NO.', how='left')
