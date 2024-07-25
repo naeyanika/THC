@@ -186,8 +186,8 @@ if uploaded_files:
             pivot_table4['DEBIT_TOTAL'] = pivot_table4.filter(like='DEBIT').sum(axis=1)
             pivot_table4['CREDIT_TOTAL'] = pivot_table4.filter(like='CREDIT').sum(axis=1)
             
-st.write("Pivot Table THC Pinjaman:")
-st.write(pivot_table4)
+            st.write("Pivot Table THC Pinjaman:")
+            st.write(pivot_table4)
 
 # PIVOT DF5
 df5_merged['TRANS. DATE'] = pd.to_datetime(df5_merged['TRANS. DATE'], format='%d/%m/%Y').dt.strftime('%d%m%Y')
