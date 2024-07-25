@@ -122,7 +122,7 @@ if uploaded_files:
             rename_dict = {
             'MIKRO BISNIS': 'MIKROBISNIS',
             }
-            df4_merged = df4_merged.rename(columns=rename_dict)
+            df4_merged['JENIS PINJAMAN'] = df4_merged['JENIS PINJAMAN'].replace(rename_dict)
             
             # Merge untuk simpanan
             df5_merged = pd.merge(df5, df1[['DOCUMENT NO.', 'ID ANGGOTA', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'JENIS SIMPANAN']], on='DOCUMENT NO.', how='left')
