@@ -4,7 +4,7 @@ import numpy as np
 import io
 
 st.title('Aplikasi Pengolahan THC')
-st.write("""1. Format file harus bernama dan menggunakan ekstensi csv, sehingga seperti ini : THC.csv, DbPinjaman.csv, DbSimpanan.csv.""")
+st.write("""1. Format file harus bernama dan menggunakan ekstensi csv di excelnya pilih save as *CSV UTF-8 berbatas koma atau coma delimited*, sehingga seperti ini : THC.csv, DbPinjaman.csv, DbSimpanan.csv""")
 st.write("""2. File THC di rapikan header dan footer nya sperti pengolahan biasa, dan untuk kolom Debit dan Credit dibiarkan ada 2 dan jangan dihapus!.""")
 st.write("""3. File DbSimpanan dan DbPinjaman, hapus header nya saja.""")
 st.write("""3. Jika penjelasan diatas kurang paham, kalian bisa lihat contohnya link dibawah ini : https://bit.ly/contoh-data-thc""")
