@@ -296,8 +296,7 @@ if 'df5_merged' in locals():
         'pivot_pinjaman.xlsx': pivot_table4,
         'pivot_simpanan.xlsx': pivot_table5,
         'pinjaman_na.xlsx': df_pinjaman_na,
-        'simpanan_na.xlsx': df_simpanan_na,
-        'merged_simpanan_pinjaman': df6_merged
+        'simpanan_na.xlsx': df_simpanan_na
     }.items():
         buffer = io.BytesIO()
         with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
