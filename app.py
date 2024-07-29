@@ -290,13 +290,6 @@ if 'df5_merged' in locals():
     st.write("Pivot Table THC Simpanan:")
     st.write(pivot_table5)
 
-    # Merge Pivot table 4 dan 5
-    df6_merged = pd.merge(pivot_table4, pivot_table5, on=['ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KELOMPOK', 'HARI', 'JAM', 'SL', 'TRANS. DATE'], how='outer')
-    df6_merged = df6_merged.fillna(0)
-
-    st.write("Merged Simpanan dan Pinjaman:")
-    st.write(df6_merged)
-
     
     # Download links for pivot tables
     for name, df in {
