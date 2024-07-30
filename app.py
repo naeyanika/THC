@@ -217,8 +217,20 @@ if uploaded_files:
             
             pivot_table4 = pivot_table4.rename(columns=rename_dict)
             
-            st.write("Pivot Table THC Pinjaman:")
-            st.write(pivot_table4)
+            desired_order = [
+            'ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KEL', 'HARI', 'JAM', 'SL', 'TRANS. DATE',
+            'Db PTN', 'Cr PTN', 'Db PRT', 'Cr PRT', 'Db DTP', 'Cr DTP', 'Db PMB', 'Cr PMB', 'Db PRR', 'Cr PRR',
+            'Db PSA', 'Cr PSA', 'Db PU', 'Cr PU', 'Db Total2', 'Cr Total2'
+            ]
+
+            # Tambahkan kolom yang mungkin belum ada dalam DataFrame
+            for col in desired_order:
+                if col not in pivot_table4.columns:
+                    pivot_table4[col] = 0
+
+            pivot_table4 = pivot_table4[desired_order]
+                st.write("Pivot Table THC Pinjaman:")
+                st.write(pivot_table4)
 
 # PIVOT DF5
 if 'df5_merged' in locals():
@@ -286,7 +298,18 @@ if 'df5_merged' in locals():
     }
 
     pivot_table5 = pivot_table5.rename(columns=rename_dict)
+    desired_order = [
+            'ID ANGGOTA', 'DUMMY', 'NAMA', 'CENTER', 'KEL', 'HARI', 'JAM', 'SL', 'TRANS. DATE',
+            'Db Qurban', 'Cr Qurban', 'Db Khusus', 'Cr Khusus', 'Db Sihara', 'Cr Sihara', 'Db Pensiun', 'Cr Pensiun', 'Db Pokok', 'Cr Pokok',
+            'Db SIPADAN', 'Cr SIPADAN', 'Db Sukarela', 'Cr Sukarela', 'Db Wajib', 'Cr Wajib', 'Db Total', 'Cr Total'
+        ]
+ # Tambahkan kolom yang mungkin belum ada dalam DataFrame
+    for col in desired_order:
+        if col not in pivot_table5.columns:
+            pivot_table5[col] = 0
 
+    pivot_table5 = pivot_table1[desired_order]
+        
     st.write("Pivot Table THC Simpanan:")
     st.write(pivot_table5)
 
