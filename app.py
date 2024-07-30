@@ -228,7 +228,8 @@ if uploaded_files:
                 if col not in pivot_table4.columns:
                     pivot_table4[col] = 0
 
-        pivot_table4 = pivot_table4[desired_order]
+            pivot_table4 = pivot_table4[desired_order]
+        
             st.write("Pivot Table THC Pinjaman:")
             st.write(pivot_table4)
 
