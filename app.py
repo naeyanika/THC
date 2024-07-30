@@ -309,7 +309,7 @@ if 'df5_merged' in locals():
         if col not in pivot_table5.columns:
             pivot_table5[col] = 0
 
-    pivot_table5 = pivot_table1[desired_order]
+    pivot_table5 = pivot_table5[desired_order]
         
     st.write("Pivot Table THC Simpanan:")
     st.write(pivot_table5)
