@@ -93,7 +93,12 @@ if uploaded_files:
         
         st.write("THC setelah diproses:")
         st.write(df3)
-
+        # Filter N/A
+        df3_na = df3.dropna(subset=['document. no'])
+    
+        st.write("THC DOC Blank:")
+        st.write(df3_na)
+        
         # Filter Pinjaman
         df3_cleaned = df3.dropna(subset=['DOCUMENT NO.'])
         df4 = df3_cleaned[df3_cleaned['DOCUMENT NO.'].str.startswith('P')].copy()
