@@ -96,7 +96,7 @@ if uploaded_files:
         
         # Filter N/A
         df3_na = df3.dropna(subset=['DOCUMENT NO.'])
-        df3_blank = df3_na[df3_na['DOCUMENT NO.'].str.startswith('')].copy()
+        df3_blank = df3_na[df3_na['DOCUMENT NO.'].str.startswith('None')].copy()
     
         st.write("THC DOC Blank:")
         st.write(df3_na)
