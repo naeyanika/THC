@@ -91,16 +91,16 @@ if uploaded_files:
         df3['DOCUMENT NO.'] = df3['DOCUMENT NO.'].fillna('N/A')
         df3['TRANS. DATE'] = pd.to_datetime(df3['TRANS. DATE'], format='%d/%m/%Y', errors='coerce')
         df3['ENTRY DATE'] = pd.to_datetime(df3['ENTRY DATE'], format='%d/%m/%Y', errors='coerce')
+
+        st.write("THC setelah diproses:")
+        st.write(df3)
                 
         # Filter N/A
         df3_na = df3.dropna(subset=['DOCUMENT NO.'])
         df3_blank = df3_na[df3_na['DOCUMENT NO.'].str.startswith('N/A')].copy()
 
-        st.write("THC setelah diproses:")
-        st.write(df3)
-
         st.write("THC DOC Blank:")
-        st.write(df3_na)
+        st.write(df3_blank)
         
         # Filter Pinjaman
         df3_cleaned = df3.dropna(subset=['DOCUMENT NO.'])
