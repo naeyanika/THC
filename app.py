@@ -3,14 +3,14 @@ import pandas as pd
 import numpy as np
 import io
 
-st.header("Aplikasi Pengolahan THC")
+st.title("Aplikasi Pengolahan THC")
 
 st.subheader("Bahan yang dibutuhkan:")
 st.write("1. THC.csv")
 st.write("2. DbPinjaman.csv")
 st.write("3. DbSimpanan.csv")
 
-st.subheader("Cara Pengolahan")
+st.subheader("Cara Pengolahan:")
 st.write("""1. Format file harus bernama dan menggunakan ekstensi csv di excelnya pilih save as *CSV UTF-8 berbatas koma atau coma delimited*, sehingga seperti ini : THC.csv, DbPinjaman.csv, DbSimpanan.csv""")
 st.write("""2. File THC di rapikan header dan footer nya sperti pengolahan biasa, dan untuk kolom Debit dan Credit dibiarkan ada 2 dan jangan dihapus!.""")
 st.write("""3. File DbSimpanan dan DbPinjaman, hapus header nya saja.""")
