@@ -5,7 +5,7 @@ import io
 
 st.title("Aplikasi Pengolahan THC")
 
-st.subheader("Bahan yang dibutuhkan:")
+st.subheader("File yang dibutuhkan:")
 st.write("1. THC.csv")
 st.write("2. DbPinjaman.csv")
 st.write("3. DbSimpanan.csv")
