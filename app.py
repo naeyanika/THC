@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import io
+import uuid
 import time
 
 st.title("Aplikasi Pengolahan THC")
@@ -45,31 +46,41 @@ def format_kelompok(kelompok):
     except (ValueError, TypeError):
         return str(kelompok)
 
+# Fungsi untuk menghasilkan UUID unik
+def get_unique_session():
+    if 'session_id' not in st.session_state:
+        st.session_state.session_id = str(uuid.uuid4())
+    return st.session_state.session_id
+
 # Simpan waktu sesi pengguna
 if 'start_time' not in st.session_state:
     st.session_state.start_time = time.time()
 
 # Fungsi untuk menghitung jumlah sesi aktif berdasarkan durasi sesi
-def count_active_sessions(session_time_limit=10):
+def count_active_sessions(session_time_limit=30):
     current_time = time.time()
-    # Ambil semua kunci sesi
-    all_sessions = list(st.session_state.keys())
     active_sessions = 0
-    
-    for session_key in all_sessions:
-        if isinstance(st.session_state[session_key], float):
-            session_duration = current_time - st.session_state[session_key]
-            if session_duration < session_time_limit:
-                active_sessions += 1
+
+    # Simpan setiap session_id dan waktu akses di dalam session_state
+    if 'sessions' not in st.session_state:
+        st.session_state.sessions = {}
+
+    # Perbarui waktu akses sesi
+    session_id = get_unique_session()
+    st.session_state.sessions[session_id] = current_time
+
+    # Hitung sesi aktif berdasarkan durasi
+    for session_id, last_active in st.session_state.sessions.items():
+        if current_time - last_active < session_time_limit:
+            active_sessions += 1
 
     return active_sessions
 
-# Setel batas waktu sesi (misalnya 10 detik untuk uji coba)
+# Setel batas waktu sesi (misalnya 30 detik untuk uji coba)
 active_sessions = count_active_sessions(session_time_limit=10)
 
 # Tampilkan jumlah pengunjung aktif di halaman
 st.write(f"Pengunjung aktif saat ini: {active_sessions}")
-
 
 # File upload
 uploaded_files = st.file_uploader("Unggah file CSV", accept_multiple_files=True)
