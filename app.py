@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import io
+import time
 
 st.title("Aplikasi Pengolahan THC")
 
@@ -43,6 +44,32 @@ def format_kelompok(kelompok):
             return ''
     except (ValueError, TypeError):
         return str(kelompok)
+
+# Simpan waktu sesi pengguna
+if 'start_time' not in st.session_state:
+    st.session_state.start_time = time.time()
+
+# Fungsi untuk menghitung jumlah sesi aktif berdasarkan durasi sesi
+def count_active_sessions(session_time_limit=10):
+    current_time = time.time()
+    # Ambil semua kunci sesi
+    all_sessions = list(st.session_state.keys())
+    active_sessions = 0
+    
+    for session_key in all_sessions:
+        if isinstance(st.session_state[session_key], float):
+            session_duration = current_time - st.session_state[session_key]
+            if session_duration < session_time_limit:
+                active_sessions += 1
+
+    return active_sessions
+
+# Setel batas waktu sesi (misalnya 10 detik untuk uji coba)
+active_sessions = count_active_sessions(session_time_limit=10)
+
+# Tampilkan jumlah pengunjung aktif di halaman
+st.write(f"Pengunjung aktif saat ini: {active_sessions}")
+
 
 # File upload
 uploaded_files = st.file_uploader("Unggah file CSV", accept_multiple_files=True)
