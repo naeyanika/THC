@@ -5,3 +5,4 @@ openpyxl
 xlsxwriter
 pyarrow>=12.0.0
 pandas>=2.1.0
+redis
