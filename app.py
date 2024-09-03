@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import io
-import redis
 import uuid
 import time
 
@@ -47,9 +46,7 @@ def format_kelompok(kelompok):
     except (ValueError, TypeError):
         return str(kelompok)
 
-# Connect to Redis
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
-
+# Session management with UUID
 def get_unique_session():
     if 'session_id' not in st.session_state:
         st.session_state.session_id = str(uuid.uuid4())
@@ -59,12 +56,15 @@ def count_active_sessions(session_time_limit=30):
     current_time = time.time()
     active_sessions = 0
 
+    if 'sessions' not in st.session_state:
+        st.session_state.sessions = {}
+
+    # Update session time
     session_id = get_unique_session()
-    redis_client.setex(session_id, session_time_limit, current_time)
+    st.session_state.sessions[session_id] = current_time
 
     # Count active sessions
-    for session_id in redis_client.keys():
-        last_active = float(redis_client.get(session_id))
+    for session_id, last_active in st.session_state.sessions.items():
         if current_time - last_active < session_time_limit:
             active_sessions += 1
 
